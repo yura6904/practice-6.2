@@ -1,23 +1,49 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Notes from './Notes/Notes';
 
 function App() {
+  const [notes, setNotes] = useState([])
+  const [newNote, setNewNote] = useState()
+  
+  const getNotes = async () => {
+    let response = await fetch('http://localhost:7777/notes') 
+    return await response.json()
+  }
+  const postNotes = async (id, text) => {
+    await fetch('http://localhost:7777/notes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({
+        id: id,
+        text: text
+      })
+    })
+    return await setNotes(await getNotes())
+
+  }
+  const deleteNotes = async (id) => {
+    await fetch('http://localhost:7777/notes/' + id, {
+      method: 'DELETE'
+    })
+    return await setNotes(await getNotes())
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      let response = await getNotes()
+      await setNotes(response)
+      await console.log(notes)
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Notes notes={notes} deleteNotes={deleteNotes} postNotes={postNotes}
+      newNote={newNote} setNewNote={setNewNote} />
     </div>
   );
 }
