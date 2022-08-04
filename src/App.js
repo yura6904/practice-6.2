@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import Notes from './Notes/Notes';
+import Notes from './components/Notes/Notes';
 
 function App() {
   const [notes, setNotes] = useState([])
@@ -35,7 +35,6 @@ function App() {
     async function fetchData() {
       let response = await getNotes()
       await setNotes(response)
-      await console.log(notes)
     }
     fetchData()
   }, [])

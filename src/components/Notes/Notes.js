@@ -8,7 +8,7 @@ function Notes(props) {
                 return (
                     <div key={idx}>
                         <p>{n.text}</p>
-                        <button onClick={() => {props.deleteNotes(idx)}}>x</button>
+                        <button onClick={() => {props.deleteNotes(n.id)}}>x</button>
                     </div>)
                 }
             ) : null}

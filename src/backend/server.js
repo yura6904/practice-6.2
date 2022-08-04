@@ -13,10 +13,6 @@ const notes = [
     {
         id: 0,
         text: 'some text'
-    },
-    {
-        id: 1,
-        text: 'some text too'
     }
 ];
 let nextId = 1;
@@ -34,10 +30,12 @@ router.post('/notes', async(ctx, next) => {
 
 router.delete('/notes/:id', async(ctx, next) => {
     const noteId = Number(ctx.params.id);
+    console.log('id to find ' + noteId)
     const index = notes.findIndex(o => o.id === noteId);
     if (index !== -1) {
         notes.splice(index, 1);
     }
+
     ctx.response.status = 204;
 });
 
